@@ -33,7 +33,7 @@ n = X.shape[1]
 N = target_arr.shape[0]
 m_test = X_test.shape[1]
 
-train_acc = 0.0
+train_acc = 0.90
 # feature_select
 list_ = [x for x in range(1, n)]
 _list = list_
@@ -60,20 +60,45 @@ for start in _list:
                     class_probs[i, k] = pstrr_k
 
             class_probs /= np.sum(class_probs, axis=1, keepdims=True)
-
             y_pred_train = np.argmax(class_probs, axis=1)
-
             cm_train = confusion_matrix(y_pred_train, y)
 
             # print(cm_train)
-            # print(r)
-            trial_accuracy = accuracy_score(y, y_pred_train)
-            if trial_accuracy > train_acc:
-                print('training accuracy: {}'.format(trial_accuracy))
-                arr = X_mod[0, :]
-                train_acc = trial_accuracy
-                results = {'accuracy': train_acc, 'feature_array': arr}
 
-print(results)
+            # print(r)
+            train_accuracy = accuracy_score(y, y_pred_train)
+            if train_accuracy > train_acc:
+                print('training accuracy: {}, trying to beat 0.913549459684123'.format(
+                    train_accuracy))
+                window = start, stop
+                train_acc = train_accuracy
+                results = {'accuracy': train_accuracy, 'feature_array': window}
+                run_test = True
+            else:
+                run_test = False
+
+            X_test_mod = X_test[:, start: stop]
+            mm = X_test_mod.shape[0]
+            class_probs_test = np.zeros((mm, N))
+
+            for i, xt in enumerate(X_test_mod):
+                for k in range(N):
+                    prior = priors[k]
+                    lklhd = np.prod(theta[:, k] ** xt * (1 - theta[:, k]) ** (1 - xt))
+                    pstrr_k = prior * lklhd
+                    class_probs_test[i, k] = pstrr_k
+
+            class_probs_test /= np.sum(class_probs_test, axis=1, keepdims=True)
+            y_pred_test = np.argmax(class_probs_test, axis=1)
+            cm_test = confusion_matrix(y_pred_test, y_test)
+
+            test_accuracy = accuracy_score(y_test, y_pred_test)
+            if run_test:
+                print('test accuracy: {}'.format(
+                    test_accuracy))
+                test_acc = test_accuracy
+                results['test_accuracy'] = test_acc
+                print('test run confusion matrix:\n{}'.format(cm_test))
+                print(results)
 
 # ========================= EOF ====================================================================
