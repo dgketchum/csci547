@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dfb35d0e-c42e-4321-b022-158405114193" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hw1/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/NB_Ketchum.py" afterPath="$PROJECT_DIR$/hw1/NB_Ketchum.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/doug_NB.py" afterPath="$PROJECT_DIR$/hw1/doug_NB.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/linear_regression.ipynb" afterPath="$PROJECT_DIR$/hw1/linear_regression.ipynb" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/probability.ipynb" afterPath="$PROJECT_DIR$/hw1/probability.ipynb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Ketchum_HW1-Copy1.ipynb" afterPath="$PROJECT_DIR$/hw1/Ketchum_HW1-Copy1.ipynb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Ketchum_HW1.ipynb" afterPath="$PROJECT_DIR$/hw1/Ketchum_HW1.ipynb" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/PC1_test.csv" afterPath="$PROJECT_DIR$/hw1/PC1_test.csv" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/PC1_training.csv" afterPath="$PROJECT_DIR$/hw1/PC1_training.csv" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/birthrate.dat" afterPath="$PROJECT_DIR$/hw1/birthrate.dat" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/naive_bayes.ipynb" afterPath="$PROJECT_DIR$/hw1/naive_bayes.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,6 +25,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
               <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="requirements.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/requirements.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -119,6 +130,9 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/hw1" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\David\PycharmProjects\csci547" />
     </key>
@@ -137,9 +151,7 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/NB_Ketchum.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/requirements.yml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/hw1/NB_Ketchum.py</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -147,6 +159,12 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/Ketchum_HW1-Copy1.ipynb</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/Ketchum_HW1.ipynb</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/PC1_test.csv</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/PC1_training.csv</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/naive_bayes.ipynb</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/requirements.txt</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -331,14 +349,27 @@
       <option name="project" value="LOCAL" />
       <updated>1518798531943</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="commit reorg, pull new req yml">
+      <created>1519154467666</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1519154467666</updated>
+    </task>
+    <task id="LOCAL-00003" summary="commit reorg, pull new req yml">
+      <created>1519154944617</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1519154944617</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="252" y="61" width="1400" height="1000" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19764012" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19764012" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48872182" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -374,7 +405,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="inital commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="inital commit" />
+    <MESSAGE value="commit reorg, pull new req yml" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit reorg, pull new req yml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -426,6 +458,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/NB_Ketchum.py" />
+    <entry file="file://$PROJECT_DIR$/NB_Ketchum.py" />
+    <entry file="file://$PROJECT_DIR$/doug_NB.py" />
+    <entry file="file://$PROJECT_DIR$/NB_Ketchum.py" />
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/requirements.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -434,9 +478,5 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NB_Ketchum.py" />
-    <entry file="file://$PROJECT_DIR$/NB_Ketchum.py" />
-    <entry file="file://$PROJECT_DIR$/doug_NB.py" />
-    <entry file="file://$PROJECT_DIR$/NB_Ketchum.py" />
   </component>
 </project>
