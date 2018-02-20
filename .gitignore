@@ -101,4 +101,5 @@ ENV/
 .mypy_cache/
 
 # workspace
-/workspace.xml
+.idea
+.idea/workspace.xml
