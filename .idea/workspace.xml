@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dfb35d0e-c42e-4321-b022-158405114193" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Ketchum_HW1-Copy1.ipynb" afterPath="$PROJECT_DIR$/hw1/Ketchum_HW1-Copy1.ipynb" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Ketchum_HW1.ipynb" afterPath="$PROJECT_DIR$/hw1/Ketchum_HW1.ipynb" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PC1_test.csv" afterPath="$PROJECT_DIR$/hw1/PC1_test.csv" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/PC1_training.csv" afterPath="$PROJECT_DIR$/hw1/PC1_training.csv" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/birthrate.dat" afterPath="$PROJECT_DIR$/hw1/birthrate.dat" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/naive_bayes.ipynb" afterPath="$PROJECT_DIR$/hw1/naive_bayes.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -363,13 +357,21 @@
       <option name="project" value="LOCAL" />
       <updated>1519154944617</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="adding files to first mod">
+      <created>1519155025426</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1519155025426</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="252" y="61" width="1400" height="1000" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19764012" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19764012" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48872182" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -406,7 +408,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="inital commit" />
     <MESSAGE value="commit reorg, pull new req yml" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit reorg, pull new req yml" />
+    <MESSAGE value="adding files to first mod" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding files to first mod" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -463,6 +466,14 @@
     <entry file="file://$PROJECT_DIR$/doug_NB.py" />
     <entry file="file://$PROJECT_DIR$/NB_Ketchum.py" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
