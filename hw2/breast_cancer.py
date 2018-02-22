@@ -1,42 +1,80 @@
 import numpy as np
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import scale, normalize
+from sklearn.metrics import confusion_matrix, accuracy_score
 
 
-def _sigmoid(w, X):
-    z = np.dot(X, w)
-    return 1. / (1 + np.exp(-z))
+def softmax(X, W):
+    a = np.dot(X, W)
+    return np.exp(a) / np.repeat(np.sum(np.exp(a), axis=1, keepdims=True), N, axis=1)
 
 
-def _J_fun(y, w, X):
-    return -sum(y * np.log(_sigmoid(w, X)) + (1 - y) * np.log(1 - _sigmoid(w, X)))
+def _J(X, W, T):
+    return -np.sum(np.sum(T * np.log(softmax(X, W)), axis=1), axis=0)
 
 
-def _gradient_fun(y, w, X):
-    return np.dot(_sigmoid(w, X) - y, X)
+def _gradient(X, W, T):
+    return -np.column_stack([np.sum([(T - softmax(X, W))[i, k] * X[i] for i in range(m)], axis=0) for k in range(N)])
 
 
-breast_data = load_breast_cancer()
+breast_cancer_data = load_breast_cancer()
 
-x = breast_data.data
-y = breast_data.target
+x = breast_cancer_data.data
+y = breast_cancer_data.target
 N = x.shape[1]
-X, X_test, y, y_test = train_test_split(x, y, test_size=0.33,
+D, D_test, y, y_test = train_test_split(x, y, test_size=0.33,
                                         random_state=42)
+D = normalize(D)
+D_test = normalize(D_test)
 
-N_iterations = 200000
+X = np.column_stack((np.ones_like(y), D))
+m = X.shape[0]
+n = X.shape[1]
+N = breast_cancer_data.target_names.shape[0]
 
-eta = np.array([[0.1, 0.1], [0.0001, 0.01]])
+T = np.zeros((m, N))
+for t, yi in zip(T, y):
+    t[yi] = 1
 
-w = np.array([-0.5, 0.5])
+N_iterations = 2000
+
+eta = 0.001
+W = 0.1 * np.random.randn(n, N)
 
 for i in range(N_iterations):
-    grad_w = _gradient_fun(w, X)
-    w -= np.dot(eta, grad_w)
+    W -= eta * _gradient(X, W, T)
 
-classification_error = sum((_sigmoid(w, X) > 0.5) == y) / len(y)
-print(classification_error)
+y_pred = np.argmax(softmax(X, W), axis=1)
+print('Objective Function Value: ', _J(X, W, T),
+      'Total misclassified: ', sum(y != y_pred))
+print(confusion_matrix(y_pred, y))
+print(accuracy_score(y, y_pred))
 
-pass
+X = np.column_stack((np.ones_like(y_test), D_test))
+
+y_test_pred = np.argmax(softmax(X, W), axis=1)
+
+print(confusion_matrix(y_test_pred, y_test))
+print(accuracy_score(y_test, y_test_pred))
+
+# Using sklearn.preprocessing.scale
+# Objective Function Value:  15.491380559972844 Total misclassified:  4
+# [[142   1]
+#  [  3 235]]
+# 0.989501312335958
+# [[ 65   1]
+#  [  2 120]]
+# 0.9840425531914894
+#
+# Using sklearn.preprocessing.normalize
+# Objective Function Value:  147.42761335322936 Total misclassified:  44
+# [[105   4]
+#  [ 40 232]]
+# 0.884514435695538
+# [[ 55   1]
+#  [ 12 120]]
+# 0.9308510638297872
+
 
 # ========================= EOF ====================================================================
