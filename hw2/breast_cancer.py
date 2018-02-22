@@ -20,7 +20,7 @@ breast_data = load_breast_cancer()
 
 x = breast_data.data
 y = breast_data.target
-N = len(y)
+N = x.shape[1]
 X, X_test, y, y_test = train_test_split(x, y, test_size=0.33,
                                         random_state=42)
 
