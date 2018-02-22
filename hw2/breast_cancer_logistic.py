@@ -25,12 +25,14 @@ N = x.shape[1]
 D, D_test, y, y_test = train_test_split(x, y, test_size=0.33,
                                         random_state=42)
 D = scale(D)
+D_test = scale(D_test)
+
 X = np.column_stack((np.ones_like(y), D))
 m = X.shape[0]
 n = X.shape[1]
 N = 2
 
-N_iterations = 2000
+N_iterations = 100
 
 eta = 0.001
 w = 0.1 * np.random.randn(n)
