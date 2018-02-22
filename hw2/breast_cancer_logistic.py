@@ -32,7 +32,7 @@ m = X.shape[0]
 n = X.shape[1]
 N = 2
 
-N_iterations = 100
+N_iterations = 1000
 
 eta = 0.001
 w = 0.1 * np.random.randn(n)
