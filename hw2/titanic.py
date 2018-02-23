@@ -60,17 +60,25 @@ T = np.zeros((m, N))
 for t, yi in zip(T, y):
     t[yi] = 1
 
-N_iterations = 1000
+N_iterations = 10**4
 
 eta = 0.001
 W = 0.1 * np.random.randn(n, N)
 
-cost_funct = np.zeros((N_iterations, 2))
+cost = np.zeros((N_iterations, 2))
+cost.fill(np.nan)
+
 for i in range(N_iterations):
     W -= eta * _gradient(X, W, T, m, N)
-    cost_funct[i] = [i, _J(X, W, T, N)]
-    if i in [1, 100, 500, 1000, 5000]:
-        print('Iteration {} at {}'.format(i, datetime.strftime(datetime.now(), '%H:%M:%S')))
+    cost[i] = [i, _J(X, W, T, N)]
+    if i > 2:
+        delta_cost = abs((cost[i, 1] - cost[i - 1, 1]) / cost[i, 1])
+        if delta_cost < 0.0001:
+            print('Met change criterion after {} '
+                  'iterations\n cost change: {}'.format(i, delta_cost))
+            break
+
+cost = cost[~np.isnan(cost).any(axis=1)]
 
 y_pred = np.argmax(softmax(X, W, N), axis=1)
 print('Objective Function Value: ', _J(X, W, T, N),
@@ -85,9 +93,9 @@ y_test_pred = np.argmax(softmax(X, W, N), axis=1)
 print(confusion_matrix(y_test_pred, y_test))
 print(accuracy_score(y_test, y_test_pred))
 
-plt.plot(cost_funct[:, 0], cost_funct[:, 1], 'r')
+plt.plot(cost[:, 0], cost[:, 1], 'r')
 plt.xlabel('Iteration')
-plt.ylabel('Cost Function')
+plt.ylabel('Cost Function Value')
 plt.show()
 
 # ========================= EOF ================================================================
