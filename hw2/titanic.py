@@ -3,7 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import confusion_matrix, accuracy_score
-from datetime import datetime
 
 
 def softmax(X, W, N):
