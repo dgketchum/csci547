@@ -10,14 +10,15 @@ class Network(object):
 
     def __init__(self, layer_number_of_nodes, layer_activation_functions, layer_has_bias,
                  layer_weight_means_and_stds=None):
-        self.layer_number_of_nodes = layer_number_of_nodes  # Of nodes in each layer
-        self.layer_activation_functions = [None]
 
-        self._sigmoid = None
-        self._identity = None
-        self._softmax = None
-        self._leaky_relu = None
-        self._gaussian = None
+        self.layer_number_of_nodes = layer_number_of_nodes  # Of nodes in each layer
+        self.layer_activation_functions = []
+
+        # self._sigmoid = None
+        # self._identity = None
+        # self._softmax = None
+        # self._leaky_relu = None
+        # self._gaussian = None
 
         self.a_vals = None
         self.z_vals = None
