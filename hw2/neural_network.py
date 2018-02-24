@@ -1,6 +1,7 @@
 from __future__ import division, print_function
 
 import numpy as np
+from sklearn.metrics import mean_squared_error
 
 
 class Network(object):
@@ -12,16 +13,7 @@ class Network(object):
                  layer_weight_means_and_stds=None):
 
         self.layer_number_of_nodes = layer_number_of_nodes  # Of nodes in each layer
-        self.layer_activation_functions = []
-
-        # self._sigmoid = None
-        # self._identity = None
-        # self._softmax = None
-        # self._leaky_relu = None
-        # self._gaussian = None
-
-        self.a_vals = None
-        self.z_vals = None
+        self.layer_activation_functions = [None]
 
         # Add an identity activation function here!
         for act in layer_activation_functions:
@@ -44,15 +36,18 @@ class Network(object):
         # Create arrays to hold the weights, which are N_l(+1) by N_(l+1)
         for i in range(self.L - 1):
             # if we have a normal distribution and standard deviation,
-            #  then generate random weights from that distribution,
+            # then generate random weights from that distribution,
             if layer_weight_means_and_stds is not None:
                 w = layer_weight_means_and_stds[i][1] * np.random.randn(
-                    self.layer_number_of_nodes[i] + self.layer_has_bias[i], self.layer_number_of_nodes[i + 1]) + \
+                    self.layer_number_of_nodes[i] + self.layer_has_bias[i],
+                    self.layer_number_of_nodes[i + 1]) + \
                     layer_weight_means_and_stds[i][0]
                 # Otherwise just initialize the weights to zero
             else:
                 w = np.zeros(
-                    (self.layer_number_of_nodes[i] + self.layer_has_bias[i], self.layer_number_of_nodes[i + 1]))
+                    (self.layer_number_of_nodes[i] + self.layer_has_bias[i],
+                     self.layer_number_of_nodes[i + 1]))
+
             self.weights.append(w)
 
     def feed_forward(self, feature):
@@ -85,13 +80,19 @@ class Network(object):
             self.z_vals.append(z)
         return z
 
-    def _J_fun(self, feature, label):
+    def _J_fun(self, feature, label=None):
+
         # Add your sum square error evaluation here!
         if self.layer_activation_functions[-1] == self._softmax:
             # Model objective function -- Cross-entropy 
-            cost_function_data = -np.sum(np.sum(label * np.log(self.feed_forward(feature)), axis=1), axis=0)
+            cost_function_data = -np.sum(np.sum(label * np.log(self.feed_forward(feature)),
+                                                axis=1), axis=0)
+
+        elif self.layer_activation_functions[-1] == self._identity:
+            cost_function_data = None
+
         else:
-            print('Only softmax supported for final layer')
+            print('Only softmax or identity supported for final layer')
 
             # Add regularization here!
         cost_function_reg = 0
@@ -119,7 +120,8 @@ class Network(object):
             delta_l = (z - label)  # Current layer error
         # Add gradient of SSE here!
         elif activation == self._identity:
-            delta_l = np.dot(w, z) - a * z
+            # TODO: fix this shite
+            delta_l = -np.sum(label - np.dot(z, w.T))
         else:
             print('Only softmax and identity supported for final layer')
 
