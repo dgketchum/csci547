@@ -120,7 +120,9 @@ class Network(object):
             delta_l = (z - label)  # Current layer error
         # Add gradient of SSE here!
         elif activation == self._identity:
-            # TODO: fix this shite
+            # TODO: fix this
+            # identity and SSE combined are the same
+            # figure this out
             delta_l = -np.sum(label - np.dot(z, w.T))
         else:
             print('Only softmax and identity supported for final layer')

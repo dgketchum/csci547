@@ -72,7 +72,8 @@ for i in range(N_iterations):
     cost[i] = [i, _J(X, W, T, N)]
     if i > 2:
         delta_cost = abs((cost[i, 1] - cost[i - 1, 1]) / cost[i, 1])
-        if delta_cost < 0.0001:
+        print(delta_cost)
+        if delta_cost < 0.01:
             print('Met change criterion after {} '
                   'iterations\n cost change: {}'.format(i, delta_cost))
             break
