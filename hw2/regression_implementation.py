@@ -2,8 +2,8 @@ import numpy as np
 from neural_network import Network
 
 m = 100
-X = np.linspace(0, 1, m)
-y = np.array([np.exp(-np.sin(4 * np.pi * xx ** 3)) for xx in X])
+X = np.linspace(0, 1, m).reshape((m, 1))
+y = np.array([np.exp(-np.sin(4 * np.pi * xx ** 3)) for xx in X]).reshape((m, 1))
 N = 1
 n = 1
 
@@ -33,7 +33,7 @@ for i in range(N_iterations):
     if i % 1000 == 0:
         misclassified = sum(np.argmax(y_pred, axis=1) != y.ravel())
         print("Iteration: {0}, Objective Function Value: {1:3f}, "
-              "Misclassified: {2}".format(i, nn._J_fun(X, T),
+              "Misclassified: {2}".format(i, nn._J_fun(X, y),
                                           misclassified))
 
 pass

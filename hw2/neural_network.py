@@ -1,7 +1,6 @@
 from __future__ import division, print_function
 
 import numpy as np
-from sklearn.metrics import mean_squared_error
 
 
 class Network(object):
@@ -80,7 +79,7 @@ class Network(object):
             self.z_vals.append(z)
         return z
 
-    def _J_fun(self, feature, label=None):
+    def _J_fun(self, feature, label):
 
         # Add your sum square error evaluation here!
         if self.layer_activation_functions[-1] == self._softmax:
@@ -89,13 +88,13 @@ class Network(object):
                                                 axis=1), axis=0)
 
         elif self.layer_activation_functions[-1] == self._identity:
-            cost_function_data = None
+            cost_function_data = np.sum((label - feature)**2)
 
         else:
             print('Only softmax or identity supported for final layer')
 
             # Add regularization here!
-        cost_function_reg = 0
+        cost_function_reg = 0.1
         return cost_function_data + cost_function_reg
 
     def _gradient_fun(self, feature, label):
@@ -116,14 +115,13 @@ class Network(object):
         a = self.a_vals[l]  # Current layer in
         w = self.weights[l]  # Last layer weights
         activation = self.layer_activation_functions[l]  # Current layer activation
+
         if activation == self._softmax:
             delta_l = (z - label)  # Current layer error
+
         # Add gradient of SSE here!
         elif activation == self._identity:
-            # TODO: fix this
-            # identity and SSE combined are the same
-            # figure this out
-            delta_l = -np.sum(label - np.dot(z, w.T))
+            delta_l = (z - label)
         else:
             print('Only softmax and identity supported for final layer')
 
