@@ -23,7 +23,7 @@ for i in range(N_iterations):
     y_pred = nn.feed_forward(X)
 
     # Compute the gradient
-    grad_w = nn._gradient_fun(X, y)
+    grad_w = nn.gradient_fun(X, y)
 
     # Update the neural network weight matrices
     for w, gw in zip(nn.weights, grad_w):

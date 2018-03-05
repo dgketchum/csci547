@@ -97,7 +97,7 @@ class Network(object):
         cost_function_reg = 0.1
         return cost_function_data + cost_function_reg
 
-    def _gradient_fun(self, feature, label):
+    def gradient_fun(self, feature, label):
         # Compute the gradient via backpropagation
         m = feature.shape[0]
 
