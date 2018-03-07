@@ -1,5 +1,5 @@
 import numpy as np
-from neural_network_2 import Network
+from neural_network import Network
 
 m = 100
 X = np.linspace(0, 1, m).reshape((m, 1))
@@ -7,7 +7,7 @@ y = np.array([np.exp(-np.sin(4 * np.pi * xx ** 3)) for xx in X]).reshape((m, 1))
 N = 1
 n = 1
 
-nn = Network([n, 20, N], [None, 'identity', 'identity'], [True, True, False],
+nn = Network([n, 20, N], [None, 'sigmoid', 'identity'], [True, True, False],
              layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)])
 
 eta = 0.001
@@ -23,7 +23,7 @@ for i in range(N_iterations):
     y_pred = nn.feed_forward(X)
 
     # Compute the gradient
-    grad_w = nn.gradient_fun(X, y)
+    grad_w = nn._gradient_fun(X, y)
 
     # Update the neural network weight matrices
     for w, gw in zip(nn.weights, grad_w):
