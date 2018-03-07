@@ -80,13 +80,13 @@ class Network(object):
             cost_function_data = -np.sum(np.sum(label * np.log(self.feed_forward(feature)), axis=1), axis=0)
 
         elif self.layer_activation_functions[-1] == self._identity:
-            cost_function_data = np.sum((np.dot(feature, self.feed_forward(feature).T) - label) ** 2)
+            cost_function_data = np.sum((self.feed_forward(feature) - label) ** 2)
 
         else:
             print('Only softmax or identity supported for final layer')
 
         # Add regularization here!
-        cost_function_reg = 0
+        cost_function_reg = 0.001
         return cost_function_data + cost_function_reg
 
     def _gradient_fun(self, feature, label):
@@ -125,7 +125,7 @@ class Network(object):
         grads[l] = np.dot(z_previous.T, delta_l)  # gradient due to data misfit
 
         # Add gradient of regularization here!
-        model_norm_gradient = 0.001
+        model_norm_gradient = 0
         grads[l] += model_norm_gradient  # add gradient due to regularization
 
         # Loop over the remaining layers
@@ -140,7 +140,7 @@ class Network(object):
             grads[l] = np.dot(z_previous.T, delta_l)  # Gradient due to data misfit
 
             # Add gradient of regularization here!
-            model_norm_gradient = 0.001
+            model_norm_gradient = 0
             grads[l] += model_norm_gradient  # add gradient due to regularization
 
         return grads
