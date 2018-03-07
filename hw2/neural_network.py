@@ -13,13 +13,13 @@ class Network(object):
         # Add an identity activation function here!
         for act in layer_activation_functions:
             if act=='softmax':
-                self.layer_activation_functions.append(self._softmax)
+                self.layer_activation_functions.append(self._softmax) 
             if act=='sigmoid':
-                self.layer_activation_functions.append(self._sigmoid)
+                self.layer_activation_functions.append(self._sigmoid) 
             if act=='leaky_relu':
-                self.layer_activation_functions.append(self._leaky_relu)
+                self.layer_activation_functions.append(self._leaky_relu) 
             if act=='gaussian':
-                self.layer_activation_functions.append(self._gaussian)
+                self.layer_activation_functions.append(self._gaussian) 
 
         self.layer_has_bias = layer_has_bias                         # Whether to add a bias node to each layer
         self.L = len(self.layer_number_of_nodes)                     # Number of layers
@@ -30,12 +30,12 @@ class Network(object):
         for i in range(self.L-1):
             # if we have a normal distribution and standard deviation, then generate random weights from that distribution,
             if layer_weight_means_and_stds is not None:
-                w = layer_weight_means_and_stds[i][1]*np.random.randn(self.layer_number_of_nodes[i] + self.layer_has_bias[i],self.layer_number_of_nodes[i+1]) + layer_weight_means_and_stds[i][0]
+                w = layer_weight_means_and_stds[i][1]*np.random.randn(self.layer_number_of_nodes[i] + self.layer_has_bias[i],self.layer_number_of_nodes[i+1]) + layer_weight_means_and_stds[i][0] 
             # Otherwise just initialize the weights to zero
             else:
                 w = np.zeros((self.layer_number_of_nodes[i] + self.layer_has_bias[i],self.layer_number_of_nodes[i+1]))
             self.weights.append(w)
-
+  
     def feed_forward(self,feature):
         # evaluate the neural network for a vector-valued input
         m = feature.shape[0]
@@ -55,22 +55,22 @@ class Network(object):
             # Take the linear combination of the previous layers outputs (z^(l-1)) and weights (w^(l)) to form a^(l)
             a = np.dot(self.z_vals[l-1],self.weights[l])
             # Run a through the activation function to form z^(l)
-            z = self.layer_activation_functions[l](a)
+            z = self.layer_activation_functions[l](a) 
             # If a bias is desired, append a column of ones to z
-            if self.layer_has_bias[l]:
+            if self.layer_has_bias[l]:         
                 z = np.column_stack((np.ones((m)),z))
             # Store these values (for computing the gradient later)
-            self.a_vals.append(a)
+            self.a_vals.append(a) 
             self.z_vals.append(z)
         return z
 
     def _J_fun(self,feature,label):
         # Add your sum square error evaluation here!
         if self.layer_activation_functions[-1]==self._softmax:
-            # Model objective function -- Cross-entropy
+            # Model objective function -- Cross-entropy 
              cost_function_data = -np.sum(np.sum(label*np.log(self.feed_forward(feature)),axis=1),axis=0)
         else:
-            print('Only softmax supported for final layer')
+            print('Only softmax supported for final layer')            
 
         # Add regularization here!
         cost_function_reg = 0
@@ -83,7 +83,7 @@ class Network(object):
         # Initialize gradient arrays (same shape as the weights)
         grads = [np.zeros_like(w) for w in self.weights]
 
-        # Compute dJ/da (aka the delta term) for the final layer.  This often involves
+        # Compute dJ/da (aka the delta term) for the final layer.  This often involves 
         # Some algebraic simplification when cost function is selected judiciously, so
         # this is coded by hand here.
 
@@ -98,7 +98,7 @@ class Network(object):
             delta_l = (z - label)                       # Current layer error
         # Add gradient of SSE here!
         else:
-            print('Only softmax and identity supported for final layer')
+            print('Only softmax and identity supported for final layer') 
 
         grads[l] = np.dot(z_previous.T,delta_l)    # gradient due to data misfit
 
@@ -108,7 +108,7 @@ class Network(object):
 
         # Loop over the remaining layers
         for l in range(self.L-2,0,-1):
-
+        
             z_previous = self.z_vals[l-1]                    # last layer output
             a = self.a_vals[l]                                # Current layer input
 
@@ -152,4 +152,4 @@ class Network(object):
 
     # Add @staticmethod for identity here
 
-
+            
