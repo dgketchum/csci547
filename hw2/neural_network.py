@@ -80,13 +80,13 @@ class Network(object):
             cost_function_data = -np.sum(np.sum(label * np.log(self.feed_forward(feature)), axis=1), axis=0)
 
         elif self.layer_activation_functions[-1] == self._identity:
-            cost_function_data = np.sum((self.feed_forward(feature) - label) ** 2)
+            cost_function_data = np.sum(np.abs(self.feed_forward(feature) - label))
 
         else:
             print('Only softmax or identity supported for final layer')
 
         # Add regularization here!
-        cost_function_reg = 0.001
+        cost_function_reg = 0
         return cost_function_data + cost_function_reg
 
     def _gradient_fun(self, feature, label):

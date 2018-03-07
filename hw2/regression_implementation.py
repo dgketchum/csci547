@@ -11,9 +11,9 @@ n = 1
 nn = Network([n, 8, N], [None, 'sigmoid', 'identity'], [True, True, False],
              layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)])
 
-eta = 0.01
+eta = 0.005
 # Number of iterations to complete
-N_iterations = 100000
+N_iterations = 500000
 
 # Perform gradient descent
 for i in range(N_iterations):
@@ -31,17 +31,16 @@ for i in range(N_iterations):
         w -= eta * gw
 
     # Print some statistics every thousandth iteration
-    if i % 1000 == 0:
+    if i % 10000 == 0:
         print('Iteration: {0}, Objective Function Value: {1:3f}'
               .format(i, nn._J_fun(X, y_pred)))
 
-y_pred = nn.feed_forward(X)
 
+print('Total error: {}'.format(
+    np.abs(np.sum(y_pred - y) / np.sum(y))))
 plt.plot(X, y, '*')
 plt.plot(X, y_pred, '*')
 plt.show()
-print('Total error: {}'.format(
-    np.abs(np.sum(y_pred / np.sum(y)))))
 
 
 # ========================= EOF ================================================================
