@@ -1,5 +1,5 @@
 import numpy as np
-from neural_network import Network
+from neural_network_2 import Network
 
 m = 100
 X = np.linspace(0, 1, m).reshape((m, 1))
@@ -8,7 +8,7 @@ N = 1
 n = 1
 
 nn = Network([n, 20, N], [None, 'identity', 'identity'], [True, True, False],
-             layer_weight_means_and_stds=None)
+             layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)])
 
 eta = 0.001
 # Number of iterations to complete
@@ -31,10 +31,11 @@ for i in range(N_iterations):
 
     # Print some statistics every thousandth iteration
     if i % 1000 == 0:
-        misclassified = sum(np.argmax(y_pred, axis=1) != y.ravel())
-        print("Iteration: {0}, Objective Function Value: {1:3f}, "
-              "Misclassified: {2}".format(i, nn._J_fun(X, y),
-                                          misclassified))
 
-pass
+        print('Iteration: {0}, Objective Function Value: {1:3f}'
+              .format(i, nn._J_fun(X, y)))
+
+        print(np.sum(nn.weights[0]), np.sum(nn.weights[1]),
+              np.sum(nn.weights[2]))
+
 # ========================= EOF ================================================================
