@@ -1,5 +1,6 @@
 import numpy as np
 from neural_network import Network
+from matplotlib import pyplot as plt
 
 m = 100
 X = np.linspace(0, 1, m).reshape((m, 1))
@@ -7,12 +8,12 @@ y = np.array([np.exp(-np.sin(4 * np.pi * xx ** 3)) for xx in X]).reshape((m, 1))
 N = 1
 n = 1
 
-nn = Network([n, 20, N], [None, 'sigmoid', 'identity'], [True, True, False],
+nn = Network([n, 8, N], [None, 'sigmoid', 'identity'], [True, True, False],
              layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)])
 
-eta = 0.001
+eta = 0.01
 # Number of iterations to complete
-N_iterations = 10000
+N_iterations = 100000
 
 # Perform gradient descent
 for i in range(N_iterations):
@@ -31,11 +32,16 @@ for i in range(N_iterations):
 
     # Print some statistics every thousandth iteration
     if i % 1000 == 0:
-
         print('Iteration: {0}, Objective Function Value: {1:3f}'
-              .format(i, nn._J_fun(X, y)))
+              .format(i, nn._J_fun(X, y_pred)))
 
-        print(np.sum(nn.weights[0]), np.sum(nn.weights[1]),
-              np.sum(nn.weights[2]))
+y_pred = nn.feed_forward(X)
+
+plt.plot(X, y, '*')
+plt.plot(X, y_pred, '*')
+plt.show()
+print('Total error: {}'.format(
+    np.abs(np.sum(y_pred / np.sum(y)))))
+
 
 # ========================= EOF ================================================================
