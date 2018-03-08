@@ -25,7 +25,7 @@ nn = Network([n, 8, N], [None, 'sigmoid', 'softmax'], [True, True, False],
 
 eta = 0.01
 # Number of iterations to complete
-N_iterations = 1000
+N_iterations = 5000
 
 batch_size = int(m / 10)
 
@@ -48,7 +48,7 @@ for i in range(N_iterations):
         w -= eta * gw
 
     # Print some statistics every thousandth iteration
-    if i % 1000 == 0:
+    if i % 100 == 0:
         misclassified = sum(np.argmax(y_pred, axis=1) != y_batch.ravel())
         print("Iteration: {0}, Objective Function Value: {1:3f}, "
               "Misclassified: {2}".format(i, nn._J_fun(X_batch, T_batch),
