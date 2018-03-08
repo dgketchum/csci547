@@ -23,7 +23,7 @@ mnist = None
 nn = Network([n, 8, N], [None, 'sigmoid', 'softmax'], [True, True, False],
              layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)])
 
-eta = 0.01
+eta = 0.001
 # Number of iterations to complete
 N_iterations = 5000
 
@@ -50,8 +50,8 @@ for i in range(N_iterations):
     # Print some statistics every thousandth iteration
     if i % 100 == 0:
         misclassified = sum(np.argmax(y_pred, axis=1) != y_batch.ravel())
-        print("Iteration: {0}, Objective Function Value: {1:3f}, "
-              "Misclassified: {2}".format(i, nn._J_fun(X_batch, T_batch),
+        print("Iter: {0}, ObjFuncValue: {1:3f}, "
+              "Misclassed: {2}".format(i, nn._J_fun(X_batch, T_batch),
                                           misclassified))
 
 # Predict the training data and classify
