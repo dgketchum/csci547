@@ -3,7 +3,7 @@ from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
 
-from neural_network import Network
+from hw2.neural_network import Network
 
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
