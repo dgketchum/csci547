@@ -32,8 +32,7 @@ for t, yi in zip(T, y):
 # Third argument: Whether to add a bias node
 # Fourth argument: standard deviation and mean of initial guess for weights
 nn = Network([n, 20, N], [None, 'sigmoid', 'softmax'], [True, True, False],
-             layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)], regularization='L1',
-             gamma=0.01)
+             layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)])
 
 # Learning rate
 eta = 0.001
@@ -73,14 +72,14 @@ y_pred = np.argmax(nn.feed_forward(X_test), axis=1)
 print("Test data accuracy: {0:3f}".format(1 - sum(y_pred != y_test.ravel()) / float(len(y_test))))
 
 # Print a matrix of plots showing points and misfit point
-fig, axs = plt.subplots(nrows=4, ncols=4)
-for i in range(4):
-    for j in range(4):
-        if i > j:
-            axs[i, j].scatter(X_test[:, i], X_test[:, j], c=y_pred)
-            axs[i, j].plot(X_test[y_test != y_pred, i], X_test[y_test != y_pred, j], 'ro', markersize=3)
-            axs[i, j].set_xlabel(iris['feature_names'][i])
-            axs[i, j].set_ylabel(iris['feature_names'][j])
-        else:  # delete redundant plots
-            fig.delaxes(axs[i, j])
-plt.show()
+# fig, axs = plt.subplots(nrows=4, ncols=4)
+# for i in range(4):
+#     for j in range(4):
+#         if i > j:
+#             axs[i, j].scatter(X_test[:, i], X_test[:, j], c=y_pred)
+#             axs[i, j].plot(X_test[y_test != y_pred, i], X_test[y_test != y_pred, j], 'ro', markersize=3)
+#             axs[i, j].set_xlabel(iris['feature_names'][i])
+#             axs[i, j].set_ylabel(iris['feature_names'][j])
+#         else:  # delete redundant plots
+#             fig.delaxes(axs[i, j])
+# plt.show()

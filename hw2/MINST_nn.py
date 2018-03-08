@@ -20,15 +20,16 @@ y_test = mnist.test.labels
 
 mnist = None
 
-nn = Network([n, 8, N], [None, 'sigmoid', 'softmax'], [True, True, False],
+nn = Network([n, 300, N], [None, 'sigmoid', 'softmax'], [True, True, False],
              layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)])
 
 eta = 0.001
 # Number of iterations to complete
-N_iterations = 5000
+N_iterations = 1000
 
 batch_size = int(m / 10)
 
+error = []
 # Perform gradient descent
 for i in range(N_iterations):
 
@@ -53,6 +54,9 @@ for i in range(N_iterations):
         print("Iter: {0}, ObjFuncValue: {1:3f}, "
               "Misclassed: {2}".format(i, nn._J_fun(X_batch, T_batch),
                                           misclassified))
+
+    y_pred = np.argmax(nn.feed_forward(X_test), axis=1)
+    error.append(1 - sum(y_pred != y_test.ravel()) / float(len(y_test)))
 
 # Predict the training data and classify
 y_pred = np.argmax(nn.feed_forward(X_test), axis=1)
