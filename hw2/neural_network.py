@@ -9,7 +9,10 @@ class Network(object):
     """
 
     def __init__(self, layer_number_of_nodes, layer_activation_functions, layer_has_bias,
-                 layer_weight_means_and_stds=None):
+                 layer_weight_means_and_stds=None, regularization=None, gamma=0):
+
+        self.regularization = regularization
+        self.gamma = gamma
         self.layer_number_of_nodes = layer_number_of_nodes  # Of nodes in each layer
         self.layer_activation_functions = [None]
         # Add an identity activation function here!
@@ -85,8 +88,19 @@ class Network(object):
         else:
             print('Only softmax or identity supported for final layer')
 
+        weight_sum = 0
+        weight_sum_sqd = 0
+        for x in self.weights:
+            weight_sum += np.sum(np.abs(x.reshape(x.size, 1)))
+            weight_sum_sqd += np.sum(x.reshape((x.size, 1)) ** 2)
         # Add regularization here!
-        cost_function_reg = 0
+        if self.regularization == 'L1':
+            cost_function_reg = self.gamma * weight_sum
+        elif self.regularization == 'L2':
+            cost_function_reg = self.gamma / 2 * np.sum(weight_sum_sqd)
+        else:
+            cost_function_reg = 0
+
         return cost_function_data + cost_function_reg
 
     def _gradient_fun(self, feature, label):
@@ -139,8 +153,13 @@ class Network(object):
             delta_l = np.dot(delta_l, w_next.T) * activation(a, dx=1)  # Current layer error
             grads[l] = np.dot(z_previous.T, delta_l)  # Gradient due to data misfit
 
-            # Add gradient of regularization here!
-            model_norm_gradient = 0
+            if self.regularization == 'L1':
+                model_norm_gradient = self.gamma * np.sign(self.weights[l])
+            elif self.regularization == 'L2':
+                model_norm_gradient = self.gamma * w
+            else:
+                model_norm_gradient = 0
+
             grads[l] += model_norm_gradient  # add gradient due to regularization
 
         return grads

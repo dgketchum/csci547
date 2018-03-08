@@ -7,7 +7,6 @@ from neural_network import Network
 
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix
 
 # Import the iris dataset
 iris = datasets.load_iris()
@@ -33,24 +32,30 @@ for t, yi in zip(T, y):
 # Third argument: Whether to add a bias node
 # Fourth argument: standard deviation and mean of initial guess for weights
 nn = Network([n, 20, N], [None, 'sigmoid', 'softmax'], [True, True, False],
-             layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)])
+             layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)], regularization='L1',
+             gamma=0.01)
 
 # Learning rate
 eta = 0.001
 
 # Number of iterations to complete
-N_iterations = 10000
+N_iterations = 50000
+
+batch_size = int(m / 10)
 
 # Perform gradient descent
 for i in range(N_iterations):
 
     # For stochastic gradient descent, take random samples of X and T
-
+    batch = np.random.randint(0, m, size=batch_size, dtype=int)
+    X_batch = X[batch, :]
+    T_batch = T[batch, :]
+    y_batch = y[batch]
     # Run the features through the neural net (to compute a and z)
-    y_pred = nn.feed_forward(X)
+    y_pred = nn.feed_forward(X_batch)
 
     # Compute the gradient
-    grad_w = nn._gradient_fun(X, T)
+    grad_w = nn._gradient_fun(X_batch, T_batch)
 
     # Update the neural network weight matrices
     for w, gw in zip(nn.weights, grad_w):
@@ -58,9 +63,10 @@ for i in range(N_iterations):
 
     # Print some statistics every thousandth iteration
     if i % 1000 == 0:
-        misclassified = sum(np.argmax(y_pred, axis=1) != y.ravel())
-        print("Iteration: {0}, Objective Function Value: {1:3f}, Misclassified: {2}".format(i, nn._J_fun(X, T),
-                                                                                            misclassified))
+        misclassified = sum(np.argmax(y_pred, axis=1) != y_batch.ravel())
+        print("Iteration: {0}, Objective Function Value: {1:3f}, "
+              "Misclassified: {2}".format(i, nn._J_fun(X_batch, T_batch),
+                                          misclassified))
 
 # Predict the training data and classify
 y_pred = np.argmax(nn.feed_forward(X_test), axis=1)

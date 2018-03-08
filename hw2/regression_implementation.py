@@ -15,10 +15,13 @@ eta = 0.005
 # Number of iterations to complete
 N_iterations = 500000
 
+batch_size = m / 10
+
 # Perform gradient descent
 for i in range(N_iterations):
 
     # For stochastic gradient descent, take random samples of X and T
+    batch = np.random.randint(0, m, size=batch_size)
 
     # Run the features through the neural net (to compute a and z)
     y_pred = nn.feed_forward(X)
@@ -34,7 +37,6 @@ for i in range(N_iterations):
     if i % 10000 == 0:
         print('Iteration: {0}, Objective Function Value: {1:3f}'
               .format(i, nn._J_fun(X, y_pred)))
-
 
 print('Total error: {}'.format(
     np.abs(np.sum(y_pred - y) / np.sum(y))))
