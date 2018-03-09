@@ -9,7 +9,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 import tensorflow as tf
 
-
+from matplotlib import pyplot as plt
 # Tensorflow has the mnist data builtin
 data_dir = '/tmp/tensorflow/mnist/input_data'
 
@@ -77,3 +77,10 @@ for i in range(N_iterations):
 
 # You can acquire the values of your layer weights with
 w = sess.run(W_0)
+fig, ax = plt.subplots(2, 2)
+k = 0
+for i in range(2):
+    for j in range(2):
+        ax[i][j].imshow(mnist.train.images[k].reshape(28, 28), aspect='auto')
+        k += 1
+plt.show()
