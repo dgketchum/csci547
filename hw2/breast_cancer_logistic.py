@@ -42,11 +42,11 @@ for i in range(N_iterations):
     w -= eta * grad_w
 
 classification_error = sum((_sigmoid(w, X) > 0.5) == y) / len(y)
-print(classification_error)
+print('Training classification error: {}'.format(classification_error))
 
 X_test = np.column_stack((np.ones_like(y_test), D_test))
 
 classification_error_test = sum((_sigmoid(w, X_test) > 0.5) == y_test) / len(y_test)
-print(classification_error_test)
+print('Test accuracy: {}'.format(classification_error_test))
 
 # ========================= EOF ====================================================================
