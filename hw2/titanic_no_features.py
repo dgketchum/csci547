@@ -18,7 +18,6 @@ def _gradient(X, W, T, m, N):
     return -np.column_stack([np.sum([(T - softmax(X, W, N))[i, k] * X[i] for i in range(m)],
                                     axis=0) for k in range(N)])
 
-
 first = True
 for csv in ['titanic_train.csv', 'titanic_test.csv']:
 
@@ -32,7 +31,7 @@ for csv in ['titanic_train.csv', 'titanic_test.csv']:
     one_hot_pclass = pd.get_dummies(df['Pclass'])
     one_hot_pclass.columns = ['c1', 'c2', 'c3']
 
-    df.drop(columns=['Sex', 'Embarked', 'Pclass', 'Age', 'Fare'], inplace=True)
+    df.drop(columns=['Sex', 'Embarked', 'Pclass'], inplace=True)
     df = df.join([one_hot_pclass, one_hot_sex, one_hot_embark], how='outer')
 
     if first:

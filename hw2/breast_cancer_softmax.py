@@ -49,14 +49,14 @@ y_pred = np.argmax(softmax(X, W), axis=1)
 print('Objective Function Value: ', _J(X, W, T),
       'Total misclassified: ', sum(y != y_pred))
 print(confusion_matrix(y_pred, y))
-print(accuracy_score(y, y_pred))
+print('Accuracy train: {}'.format(accuracy_score(y, y_pred)))
 
 X = np.column_stack((np.ones_like(y_test), D_test))
 
 y_test_pred = np.argmax(softmax(X, W), axis=1)
 
 print(confusion_matrix(y_test_pred, y_test))
-print(accuracy_score(y_test, y_test_pred))
+print('Accuracy test: {}'.format(accuracy_score(y_test, y_test_pred)))
 
 # Using sklearn.preprocessing.scale
 # Objective Function Value:  15.491380559972844 Total misclassified:  4

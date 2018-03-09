@@ -156,7 +156,7 @@ class Network(object):
             if self.regularization == 'L1':
                 model_norm_gradient = self.gamma * np.sign(self.weights[l])
             elif self.regularization == 'L2':
-                model_norm_gradient = self.gamma * w
+                model_norm_gradient = self.gamma * self.weights[l]
             else:
                 model_norm_gradient = 0
 
