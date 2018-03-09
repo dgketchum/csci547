@@ -70,6 +70,8 @@ cost.fill(np.nan)
 for i in range(N_iterations):
     W -= eta * _gradient(X, W, T, m, N)
     cost[i] = [i, _J(X, W, T, N)]
+    if i % 1000 == 0:
+        print(i)
     if i > 2:
         delta_cost = abs((cost[i, 1] - cost[i - 1, 1]) / cost[i, 1])
         print(delta_cost)

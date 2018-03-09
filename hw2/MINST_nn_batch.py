@@ -22,33 +22,42 @@ y_test = mnist.test.labels
 mnist = None
 
 nn = Network([n, 300, N], [None, 'sigmoid', 'softmax'], [True, True, False],
-             layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)])
+             layer_weight_means_and_stds=[(0, 0.1), (0, 0.1)], regularization='L2',
+             gamma=0.01)
 
-eta = 0.01
+eta = 0.001
 # Number of iterations to complete
-N_iterations = 1000
+N_iterations = 100
+
+batch_size = int(m / 10)
+
 cost = np.zeros((N_iterations, 2))
 cost.fill(np.nan)
 
 # Perform gradient descent
 for i in range(N_iterations):
 
+    # For stochastic gradient descent, take random samples of X and T
+    batch = np.random.randint(0, m, size=batch_size, dtype=int)
+    X_batch = X[batch, :]
+    T_batch = T[batch, :]
+    y_batch = y[batch]
     # Run the features through the neural net (to compute a and z)
-    y_pred = nn.feed_forward(X)
+    y_pred = nn.feed_forward(X_batch)
 
     # Compute the gradient
-    grad_w = nn._gradient_fun(X, T)
+    grad_w = nn._gradient_fun(X_batch, T_batch)
 
     # Update the neural network weight matrices
     for w, gw in zip(nn.weights, grad_w):
         w -= eta * gw
-        cost[i] = [i, nn._J_fun(X, T)]
+        cost[i] = [i, nn._J_fun(X_batch, T_batch)]
 
     # Print some statistics every thousandth iteration
     if i % 100 == 0:
-        misclassified = sum(np.argmax(y_pred, axis=1) != y.ravel())
+        misclassified = sum(np.argmax(y_pred, axis=1) != y_batch.ravel())
         print("Iter: {0}, ObjFuncValue: {1:3f}, "
-              "Misclassed: {2}".format(i, nn._J_fun(X, T),
+              "Misclassed: {2}".format(i, nn._J_fun(X_batch, T_batch),
                                        misclassified))
 
 # Predict the training data and classify

@@ -15,7 +15,7 @@ eta = 0.005
 # Number of iterations to complete
 N_iterations = 500000
 
-batch_size = m / 10
+batch_size = int(m / 10)
 
 # Perform gradient descent
 for i in range(N_iterations):
