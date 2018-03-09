@@ -25,7 +25,7 @@ nn = Network([n, 300, N], [None, 'sigmoid', 'softmax'], [True, True, False],
 
 eta = 0.001
 # Number of iterations to complete
-N_iterations = 1000
+N_iterations = 2000
 
 batch_size = int(m / 10)
 
@@ -55,8 +55,6 @@ for i in range(N_iterations):
               "Misclassed: {2}".format(i, nn._J_fun(X_batch, T_batch),
                                           misclassified))
 
-    y_pred = np.argmax(nn.feed_forward(X_test), axis=1)
-    error.append(1 - sum(y_pred != y_test.ravel()) / float(len(y_test)))
 
 # Predict the training data and classify
 y_pred = np.argmax(nn.feed_forward(X_test), axis=1)
