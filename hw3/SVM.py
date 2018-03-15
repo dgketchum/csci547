@@ -25,6 +25,7 @@ def support_vector_machine():
     labels = csv.iloc[:, 0].values
     pre_data = csv.iloc[:, 1:].values
     data = minmax_scale(pre_data)
+    svc = SVC(kernel='linear')
     pass
 
 
