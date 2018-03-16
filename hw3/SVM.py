@@ -19,25 +19,43 @@ from sklearn.svm import SVC
 from sklearn.preprocessing import minmax_scale
 from sklearn.model_selection import train_test_split as tts
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
 
-def support_vector_machine():
-    csv = pd.read_csv('wine.data')
+def support_vector_machine(src, krnl='linear'):
+    csv = pd.read_csv(src)
     labels = csv.iloc[:, 0].values
     pre_data = csv.iloc[:, 1:].values
     data = minmax_scale(pre_data)
     x, x_test, y, y_test = tts(data, labels, test_size=0.33)
-    svc = SVC(kernel='linear')
+    svc = SVC(kernel=krnl)
     svc.fit(x, y)
     y_pred = svc.predict(x)
     y_test_pred = svc.predict(x_test)
-    print("Training accuracy: ", sum(y == y_pred).astype(float) / len(y))
-    print("Test accuracy: ", sum(y_test == y_test_pred).astype(float) / len(y_test_pred))
+    training = sum(y == y_pred).astype(float) / len(y)
+    testing = sum(y_test == y_test_pred).astype(float) / len(y_test_pred)
+    print("Training accuracy: ", training)
+    print("Test accuracy: ", testing)
+    return training, testing
+
+
+def loop_svm(src, num_loops):
+    iterlist = np.zeros((num_loops, 2))
+    for i in range(num_loops):
+        train, test = support_vector_machine(src)
+        iterlist[i] = [i, test]
+    series = pd.Series(data=iterlist[:, 1], index=iterlist[:, 0])
+    series.plot()
+    plt.figure()
+    series.plot.hist()
     pass
 
 
 if __name__ == '__main__':
     home = os.path.expanduser('~')
-    support_vector_machine()
+    source_data = 'wine.data'
+    # support_vector_machine(source_data, krnl='linear')
+    loop_svm(source_data, 100)
 
 # ========================= EOF ================================================================
