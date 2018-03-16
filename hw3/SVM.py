@@ -17,6 +17,7 @@
 import os
 from sklearn.svm import SVC
 from sklearn.preprocessing import minmax_scale
+from sklearn.model_selection import train_test_split as tts
 import pandas as pd
 
 
@@ -25,7 +26,9 @@ def support_vector_machine():
     labels = csv.iloc[:, 0].values
     pre_data = csv.iloc[:, 1:].values
     data = minmax_scale(pre_data)
+    x, x_test, y, y_test = tts(data, labels, test_size=0.33)
     svc = SVC(kernel='linear')
+    svc.fit(x, y)
     pass
 
 
