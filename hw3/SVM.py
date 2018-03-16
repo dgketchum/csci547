@@ -16,18 +16,21 @@
 
 import os
 from sklearn.svm import SVC
-from sklearn.preprocessing import minmax_scale
+from sklearn.preprocessing import normalize
 from sklearn.model_selection import train_test_split as tts
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
 
-def support_vector_machine(src, krnl='linear'):
+def support_vector_machine(src, krnl='linear', on_loop=False, normal=False):
     csv = pd.read_csv(src)
     labels = csv.iloc[:, 0].values
-    pre_data = csv.iloc[:, 1:].values
-    data = minmax_scale(pre_data)
+    data = csv.iloc[:, 1:].values
+
+    if normal:
+        data = normalize(data)
+
     x, x_test, y, y_test = tts(data, labels, test_size=0.33)
     svc = SVC(kernel=krnl)
     svc.fit(x, y)
@@ -35,21 +38,26 @@ def support_vector_machine(src, krnl='linear'):
     y_test_pred = svc.predict(x_test)
     training = sum(y == y_pred).astype(float) / len(y)
     testing = sum(y_test == y_test_pred).astype(float) / len(y_test_pred)
-    # print("Training accuracy with {}: {}".format(krnl, training))
-    # print("Test accuracy with {}: {}".format(krnl, testing))
+    if not on_loop:
+        print("{} SVM Training accuracy with {}: {}, normalized {}".format(krnl, krnl, training, normal))
+        print("{} SVM Test accuracy with {}: {}, normalized {}".format(krnl, krnl, testing, normal))
     return training, testing
 
 
-def loop_svm(src, num_loops):
+def loop_svm(src, num_loops, krnl='linear', normed=False):
     iterlist = np.zeros((num_loops, 2))
     for i in range(num_loops):
-        train, test = support_vector_machine(src)
+        if normed:
+            train, test = support_vector_machine(src, krnl=krnl, on_loop=True, normal=True)
+        else:
+            train, test = support_vector_machine(src, krnl=krnl, on_loop=True)
         iterlist[i] = [i, test]
     series = pd.Series(data=iterlist[:, 1], index=iterlist[:, 0])
-    series.plot()
-    plt.figure()
-    series.plot.hist(alpha=1)
-    plt.show()
+    # plt.figure()
+    # series.plot.hist(alpha=1)
+    # plt.show()
+    print('{} SVM Test mean: {}, test stdev: {} normalized {}'.format(krnl, iterlist[:, 1].mean(),
+                                                 iterlist[:, 1].std(), normed))
     return None
 
 
@@ -57,8 +65,11 @@ if __name__ == '__main__':
     home = os.path.expanduser('~')
     source_data = 'wine.data'
     support_vector_machine(source_data, krnl='linear')
-    loop_svm(source_data, 100)
-    support_vector_machine(source_data, krnl='poly')
-    support_vector_machine(source_data, krnl='rbf')
+    loop_svm(source_data, 100, krnl='linear')
+    loop_svm(source_data, 100, krnl='linear', normed=True)
+    loop_svm(source_data, 100, krnl='poly')
+    loop_svm(source_data, 100, krnl='poly', normed=True)
+    loop_svm(source_data, 100, krnl='rbf')
+    loop_svm(source_data, 100, krnl='rbf', normed=True)
 
 # ========================= EOF ================================================================
