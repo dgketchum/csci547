@@ -35,8 +35,8 @@ def support_vector_machine(src, krnl='linear'):
     y_test_pred = svc.predict(x_test)
     training = sum(y == y_pred).astype(float) / len(y)
     testing = sum(y_test == y_test_pred).astype(float) / len(y_test_pred)
-    print("Training accuracy: ", training)
-    print("Test accuracy: ", testing)
+    # print("Training accuracy with {}: {}".format(krnl, training))
+    # print("Test accuracy with {}: {}".format(krnl, testing))
     return training, testing
 
 
@@ -48,14 +48,17 @@ def loop_svm(src, num_loops):
     series = pd.Series(data=iterlist[:, 1], index=iterlist[:, 0])
     series.plot()
     plt.figure()
-    series.plot.hist()
-    pass
+    series.plot.hist(alpha=1)
+    plt.show()
+    return None
 
 
 if __name__ == '__main__':
     home = os.path.expanduser('~')
     source_data = 'wine.data'
-    # support_vector_machine(source_data, krnl='linear')
+    support_vector_machine(source_data, krnl='linear')
     loop_svm(source_data, 100)
+    support_vector_machine(source_data, krnl='poly')
+    support_vector_machine(source_data, krnl='rbf')
 
 # ========================= EOF ================================================================
