@@ -29,6 +29,10 @@ def support_vector_machine():
     x, x_test, y, y_test = tts(data, labels, test_size=0.33)
     svc = SVC(kernel='linear')
     svc.fit(x, y)
+    y_pred = svc.predict(x)
+    y_test_pred = svc.predict(x_test)
+    print("Training accuracy: ", sum(y == y_pred).astype(float) / len(y))
+    print("Test accuracy: ", sum(y_test == y_test_pred).astype(float) / len(y_test_pred))
     pass
 
 
