@@ -16,15 +16,36 @@
 
 import os
 import numpy as np
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
 
-def get_principal_components(first, *argv):
+
+def load_data(first, second, plot=False):
     f = np.load(first)
+    s = np.load(second)
+    dat = np.append(f, s, axis=0)
+    if plot:
+        plot_3d(dat[:, 0], dat[:, 1], dat[:, 2].reshape((42, 1)))
+
+
+def get_pca(data, plot=False):
+    p = PCA(data)
+    if plot:
+        plot_3d(data[:, 0], data[:, 1], data[:, 2].reshape((42, 1)))
     pass
+
+
+def plot_3d(x, y, z):
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    ax.scatter(x, y, z)
+    plt.show()
+
 
 if __name__ == '__main__':
     home = os.path.expanduser('~')
-    data_1 = 'hw3/pca1.npy'
-    data_2 = 'hw3/pca2.npy'
-    get_principal_components(data_1, data_2)
+    data_1 = 'pca1.npy'
+    data_2 = 'pca2.npy'
+    load_data(data_1, data_2, plot=True)
 
 # ========================= EOF ================================================================

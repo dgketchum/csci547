@@ -57,7 +57,7 @@ def loop_svm(src, num_loops, krnl='linear', normed=False):
     # series.plot.hist(alpha=1)
     # plt.show()
     print('{} SVM Test mean: {}, test stdev: {} normalized {}'.format(krnl, iterlist[:, 1].mean(),
-                                                 iterlist[:, 1].std(), normed))
+                                                                      iterlist[:, 1].std(), normed))
     return None
 
 
