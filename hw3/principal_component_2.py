@@ -15,37 +15,40 @@
 # =============================================================================================
 
 import os
+import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.datasets import fetch_lfw_people
 from sklearn.decomposition import PCA
 
 
-def get_faces(plot=False):
+def get_faces(n_comps):
     faces = fetch_lfw_people(resize=0.7, min_faces_per_person=50)
     x = faces.data
-    y = faces.target
     n_samples, h, w = faces.images.shape
-    n_comps = 100
     p = PCA(n_components=n_comps)
     p.fit(x)
     eigenfaces = p.components_.reshape((n_comps, h, w))
-    if plot:
-        plot_gallery(eigenfaces, h, w)
+    return eigenfaces
 
 
-def plot_gallery(images, h, w, n_row=3, n_col=4):
-    plt.figure(figsize=(1.8 * n_col, 2.4 * n_row))
+def plot_gallery(images, rows, cols):
+    h, w = images.shape[1], images.shape[2]
+    plt.figure(figsize=(1.8 * cols, 2.4 * rows))
     plt.subplots_adjust(bottom=0, left=.01, right=.99, top=.90, hspace=.35)
-    for i in range(n_row * n_col):
-        plt.subplot(n_row, n_col, i + 1)
+    for i in range(rows * cols):
+        plt.subplot(rows, cols, i + 1)
         plt.imshow(images[i].reshape((h, w)), cmap=plt.cm.gray)
-        plt.xticks(())
-        plt.yticks(())
     plt.show()
 
 
 if __name__ == '__main__':
     home = os.path.expanduser('~')
-    get_faces(plot=True)
-
+    ef = get_faces(n_comps=100)
+    plot_gallery(ef, 2, 5)
+    ef = get_faces(n_comps=1)
+    plot_gallery(ef, 1, 1)
+    ef = get_faces(n_comps=10)
+    plot_gallery(ef, 2, 5)
+    df = get_faces(n_comps=100)
+    plot_gallery(ef, 10, 10)
 # ========================= EOF ================================================================
