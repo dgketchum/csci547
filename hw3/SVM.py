@@ -16,7 +16,7 @@
 
 import os
 from sklearn.svm import SVC
-from sklearn.preprocessing import normalize
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split as tts
 import pandas as pd
 import numpy as np
@@ -29,7 +29,9 @@ def support_vector_machine(src, krnl='linear', on_loop=False, normal=False):
     data = csv.iloc[:, 1:].values
 
     if normal:
-        data = normalize(data)
+        scaler = StandardScaler()
+        scaler = scaler.fit(data)
+        data = scaler.transform(data)
 
     x, x_test, y, y_test = tts(data, labels, test_size=0.33)
     svc = SVC(kernel=krnl)
@@ -41,10 +43,11 @@ def support_vector_machine(src, krnl='linear', on_loop=False, normal=False):
     if not on_loop:
         print("{} SVM Training accuracy with {}: {}, normalized {}".format(krnl, krnl, training, normal))
         print("{} SVM Test accuracy with {}: {}, normalized {}".format(krnl, krnl, testing, normal))
-    return training, testing
+    if on_loop:
+        return training, testing
 
 
-def loop_svm(src, num_loops, krnl='linear', normed=False):
+def loop_svm(src, num_loops, krnl='linear', normed=False, plot=False):
     iterlist = np.zeros((num_loops, 2))
     for i in range(num_loops):
         if normed:
@@ -53,9 +56,10 @@ def loop_svm(src, num_loops, krnl='linear', normed=False):
             train, test = support_vector_machine(src, krnl=krnl, on_loop=True)
         iterlist[i] = [i, test]
     series = pd.Series(data=iterlist[:, 1], index=iterlist[:, 0])
-    # plt.figure()
-    # series.plot.hist(alpha=1)
-    # plt.show()
+    if plot:
+        plt.figure()
+        series.plot.hist(alpha=1)
+        plt.show()
     print('{} SVM Test mean: {}, test stdev: {} normalized {}'.format(krnl, iterlist[:, 1].mean(),
                                                                       iterlist[:, 1].std(), normed))
     return None

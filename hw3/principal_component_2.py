@@ -15,43 +15,37 @@
 # =============================================================================================
 
 import os
-import numpy as np
+from matplotlib import pyplot as plt
+from sklearn.datasets import fetch_lfw_people
 from sklearn.decomposition import PCA
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 
 
-def load_data(data, plot=False):
-    data = np.load(data)
+def get_faces(plot=False):
+    faces = fetch_lfw_people(resize=0.7, min_faces_per_person=50)
+    x = faces.data
+    y = faces.target
+    n_samples, h, w = faces.images.shape
+    n_comps = 100
+    p = PCA(n_components=n_comps)
+    p.fit(x)
+    eigenfaces = p.components_.reshape((n_comps, h, w))
     if plot:
-        l = data.shape[0]
-        plot_3d(data[:, 0], data[:, 1], data[:, 2].reshape((l, 1)))
-    return data
+        plot_gallery(eigenfaces, h, w)
 
 
-def get_pca(data):
-    data = load_data(data)
-    p = PCA(n_components=3)
-    p.fit(data)
-    return p
-
-
-def plot_3d(x, y, z):
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
-    ax.scatter(x, y, z)
-    ax.set_xlabel('X Label')
-    ax.set_ylabel('Y Label')
-    ax.set_zlabel('Z Label')
+def plot_gallery(images, h, w, n_row=3, n_col=4):
+    plt.figure(figsize=(1.8 * n_col, 2.4 * n_row))
+    plt.subplots_adjust(bottom=0, left=.01, right=.99, top=.90, hspace=.35)
+    for i in range(n_row * n_col):
+        plt.subplot(n_row, n_col, i + 1)
+        plt.imshow(images[i].reshape((h, w)), cmap=plt.cm.gray)
+        plt.xticks(())
+        plt.yticks(())
     plt.show()
 
 
 if __name__ == '__main__':
     home = os.path.expanduser('~')
-    data_1 = 'pca1.npy'
-    data_2 = 'pca2.npy'
-    load_data(data_1, plot=True)
-    load_data(data_2, plot=True)
-    print('First dataset PCAs: {}'.format(get_pca(data_1).explained_variance_))
-    print('Second dataset PCAs: {}'.format(get_pca(data_2).explained_variance_))
+    get_faces(plot=True)
+
 # ========================= EOF ================================================================
