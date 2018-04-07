@@ -30,17 +30,12 @@ def faithful(csv):
     pred = mix.predict(data).reshape((272, 1))
     colors = ['r' if i == 0 else 'g' for i in pred]
 
-    ndata = np.hstack((pred, data))
-    one = ndata[ndata[:, 0] == 0]
-    two = ndata[ndata[:, 0] == 1]
-    pos_1 = (np.mean(one[:, 1]), np.mean(one[:, 2]))
-    pos_2 = (np.mean(two[:, 1]), np.mean(two[:, 2]))
-
-    cov_1 = np.cov(one[:, 1:])
-    cov_2 = np.cov(two[:, 1:])
-
     ax = plt.gca()
     ax.scatter(data[:, 0], data[:, 1], c=colors, alpha=0.8)
+    ax1 = plt.gca()
+    ax2 = plt.gca()
+    plot_ellipse(mix.means_[0, :], mix.covariances_[0, :, :], ax=ax1)
+    plot_ellipse(mix.means_[1, :], mix.covariances_[1, :, :], ax=ax2)
 
     plt.title('Old Faithful Data')
     plt.xlabel('Duration (min)')
@@ -51,15 +46,10 @@ def faithful(csv):
 def plot_ellipse(position, covariance, ax=None, **kwargs):
     """Draw an ellipse with a given position and covariance"""
     ax = ax or plt.gca()
-
-    # Convert covariance to principal axes
-    if covariance.shape == (2, 2):
-        U, s, Vt = np.linalg.svd(covariance)
-        angle = np.degrees(np.arctan2(U[1, 0], U[0, 0]))
-        width, height = 2 * np.sqrt(s)
-    else:
-        angle = 0
-        width, height = 2 * np.sqrt(covariance)
+    kwargs = {'alpha': 0.1}
+    U, s, Vt = np.linalg.svd(covariance)
+    angle = np.degrees(np.arctan2(U[1, 0], U[0, 0]))
+    width, height = 2 * np.sqrt(s)
 
     # Draw the Ellipse
     for nsig in range(1, 4):
