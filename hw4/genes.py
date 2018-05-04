@@ -96,7 +96,10 @@ def classify(sequence, transition_matrix, prior, bayes=False):
         codes = codes[1:]
 
     for i in codes:
-        prb += np.log(A[:, previous, i])
+        if bayes:
+            prb += np.log(prior[:, i])
+        else:
+            prb += np.log(A[:, previous, i])
         previous = i
 
     return np.argmax(prb)
