@@ -25,6 +25,7 @@ EXAMPLE = 'TCTAGTCCAGATAATCTGGT'
 
 
 def load_sequences(dat):
+
     with open(dat, 'rb') as input_data:
         data = pickle.load(input_data)
 
@@ -65,6 +66,7 @@ def get_markov_params(data):
 
 
 def generate_sequence(transition_matrix, prior, k=0):
+
     A = transition_matrix[k]
     prior = prior[k]
 
@@ -80,20 +82,28 @@ def generate_sequence(transition_matrix, prior, k=0):
     return sequence
 
 
-def classify(sequence, transition_matrix, prior):
+def classify(sequence, transition_matrix, prior, bayes=False):
 
     A = transition_matrix
     codes = [OBS_POSSIBLE.index(base) for base in sequence]
+
     previous = codes[0]
-    prb = np.log(prior[:, previous])
+
+    if bayes:
+        prb = 0.
+    else:
+        prb = np.log(prior[:, previous])
+        codes = codes[1:]
 
     for i in codes:
         prb += np.log(A[:, previous, i])
+        previous = i
 
     return np.argmax(prb)
 
 
-def test_classifier(training, testing):
+def test_classifier(training, testing, bayes=False):
+
     transition, prior = get_markov_params(training)
 
     obs = np.array(testing[0, :])
@@ -102,12 +112,11 @@ def test_classifier(training, testing):
     pred = np.zeros_like(states)
 
     for i, ob in enumerate(obs):
-        pred[i] = classify(ob, transition, prior)
-        # print(pred[i], states[i])
+        pred[i] = classify(ob, transition, prior, bayes=bayes)
 
     accuracy = np.sum(pred == states) / len(states)
 
-    print('{:4.2f}% accuracy.'.format(accuracy))
+    print('{:5.1f}% accuracy.'.format(accuracy * 100))
 
 
 if __name__ == '__main__':
@@ -118,5 +127,6 @@ if __name__ == '__main__':
     # generate_sequence(transition, prior_matrix, k=1)
     # classify(EXAMPLE, transition, prior_matrix)
     test_classifier(training_data, testing_data)
+    test_classifier(training_data, testing_data, bayes=True)
 
 # ========================= EOF ================================================================
