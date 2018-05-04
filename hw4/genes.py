@@ -25,13 +25,19 @@ EXAMPLE = 'TCTAGTCCAGATAATCTGGT'
 
 
 def load_sequences(dat):
-    with open(dat, 'rb') as input_data:
-        data = pickle.load(input_data)
+    try:
+        with open(dat, 'rb') as input_data:
+            data = pickle.load(input_data)
+    except ValueError:
+        with open(dat, 'rb', encoding=) as input_data:
+            data = pickle.load(input_data)
+
+    data = np.vstack((np.array(data[0]), np.array(data[1])))
     return data
 
 
 def get_markov_params(data):
-    data = np.vstack((np.array(data[0]), np.array(data[1])))
+
     obs = np.array(data[0, :])
     states = np.array(data[1, :], dtype=int)
 
@@ -76,14 +82,46 @@ def generate_sequence(transition_matrix, prior, k=0):
         sequence[i] = np.random.choice(OBS_POSSIBLE, replace=True, p=A[prev_base])
         prev_base = OBS_POSSIBLE.index(letter)
     sequence = ''.join(sequence)
-
     return sequence
+
+
+def classify(sequence, transition_matrix, prior):
+
+    A = transition_matrix
+    codes = [OBS_POSSIBLE.index(base) for base in sequence]
+    previous = codes[0]
+    prb = np.log(prior[:, previous])
+
+    for i in codes:
+        prb += np.log(A[:, previous, i])
+
+    return np.argmax(prb)
+
+
+def test_classifier(training, testing):
+
+    train = load_sequences(training)
+    transition, prior = get_markov_params(train)
+
+    test = load_sequences(testing)
+    obs = np.array(test[0, :])
+    states = np.array(test[1, :], dtype=int)
+
+    pred = np.zeros_like(states)
+
+    for i, ob in enumerate(obs):
+        pred[i] = classify(ob, transition, prior)
+
+    accuracy = np.sum(pred == states)
 
 
 if __name__ == '__main__':
     home = os.path.expanduser('~')
     training_data = load_sequences('genes_training.p')
-    transition, prior_matrix = get_markov_params(training_data)
-    generate_sequence(transition, prior_matrix, k=1)
+    testing_data = load_sequences('genes_test.p')
+    # transition, prior_matrix = get_markov_params(training_data)
+    # generate_sequence(transition, prior_matrix, k=1)
+    # classify(EXAMPLE, transition, prior_matrix)
+    test_classifier(training_data, testing_data)
 
 # ========================= EOF ================================================================
