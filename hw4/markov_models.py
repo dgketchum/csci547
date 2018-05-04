@@ -42,7 +42,7 @@ class NaiveBayesModel(object):
         """
         Builds a dictionary of word probabilities
         """
-        for i in xrange(self.sequence_length):
+        for i in range(self.sequence_length):
             word = self.sequence[i]
             if word in self.transitions[0]:
                 self.transitions[0][word] += 1
@@ -115,7 +115,7 @@ class FirstOrderMarkovModel(object):
         Builds a set of nested dictionaries of word probabilities
         """
 
-        for i in xrange(self.sequence_length):
+        for i in range(self.sequence_length):
             word = self.sequence[i]
             if word in self.transitions[0]:
                 self.transitions[0][word] += 1
@@ -126,7 +126,7 @@ class FirstOrderMarkovModel(object):
         for k, v in self.transitions[0].iteritems():
             self.transitions[0][k] = v / transition_sum
 
-        for i in xrange(self.sequence_length - 1):
+        for i in range(self.sequence_length - 1):
             word = self.sequence[i]
             next_word = self.sequence[i + 1]
             if word in self.transitions[1]:
@@ -219,7 +219,7 @@ class SecondOrderMarkovModel(object):
         Builds a set of nested dictionaries of word probabilities
         """
 
-        for i in xrange(self.sequence_length):
+        for i in range(self.sequence_length):
             word = self.sequence[i]
             if word in self.transitions[0]:
                 self.transitions[0][word] += 1
@@ -230,7 +230,7 @@ class SecondOrderMarkovModel(object):
         for k, v in self.transitions[0].iteritems():
             self.transitions[0][k] = v / transition_sum
 
-        for i in xrange(self.sequence_length - 1):
+        for i in range(self.sequence_length - 1):
             word = self.sequence[i]
             next_word = self.sequence[i + 1]
             if word in self.transitions[1]:
@@ -247,7 +247,7 @@ class SecondOrderMarkovModel(object):
             for k_2, v in tdict.iteritems():
                 self.transitions[1][k_1][k_2] = v / key_sum
 
-        for i in xrange(self.sequence_length - 2):
+        for i in range(self.sequence_length - 2):
             word = self.sequence[i]
             next_word = self.sequence[i + 1]
             next_next_word = self.sequence[i + 2]
