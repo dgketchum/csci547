@@ -25,19 +25,14 @@ EXAMPLE = 'TCTAGTCCAGATAATCTGGT'
 
 
 def load_sequences(dat):
-    try:
-        with open(dat, 'rb') as input_data:
-            data = pickle.load(input_data)
-    except ValueError:
-        with open(dat, 'rb', encoding=) as input_data:
-            data = pickle.load(input_data)
+    with open(dat, 'rb') as input_data:
+        data = pickle.load(input_data)
 
     data = np.vstack((np.array(data[0]), np.array(data[1])))
     return data
 
 
 def get_markov_params(data):
-
     obs = np.array(data[0, :])
     states = np.array(data[1, :], dtype=int)
 
@@ -99,20 +94,20 @@ def classify(sequence, transition_matrix, prior):
 
 
 def test_classifier(training, testing):
+    transition, prior = get_markov_params(training)
 
-    train = load_sequences(training)
-    transition, prior = get_markov_params(train)
-
-    test = load_sequences(testing)
-    obs = np.array(test[0, :])
-    states = np.array(test[1, :], dtype=int)
+    obs = np.array(testing[0, :])
+    states = np.array(testing[1, :], dtype=int)
 
     pred = np.zeros_like(states)
 
     for i, ob in enumerate(obs):
         pred[i] = classify(ob, transition, prior)
+        # print(pred[i], states[i])
 
-    accuracy = np.sum(pred == states)
+    accuracy = np.sum(pred == states) / len(states)
+
+    print('{:4.2f}% accuracy.'.format(accuracy))
 
 
 if __name__ == '__main__':
